@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+# task model
 class Task(models.Model):
     STATUS_CHOICES = [
         ('todo', 'To Do'),
         ('in_progress', 'In Progress'),
         ('completed', 'Completed'),
-    ]
+    ] # status choices for the task model
 
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -19,5 +20,6 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # string representation of the model object 
     def __str__(self):
-        return self.title
+        return self.title 
