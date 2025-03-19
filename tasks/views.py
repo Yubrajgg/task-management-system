@@ -47,6 +47,12 @@ def task_update(request, pk):
         assigned_to_id = request.POST.get('assigned_to')
         task.assigned_to = User.objects.get(id=assigned_to_id) if assigned_to_id else None
         task.due_date = request.POST.get('due_date')
+        
+        # Handle status change to completed
+        if task.status == 'done':
+            task.save()
+            return redirect('task_list')
+        
         if request.FILES.get('attachment'):
             task.attachment = request.FILES['attachment']
         task.save()

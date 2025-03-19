@@ -36,6 +36,10 @@
                                 <span class="badge bg-secondary small">{{ task.get_priority_display }}</span>
                                 <span class="text-muted small">{{ task.due_date|date:'M d'|default:'No due date' }}</span>
                             </div>
+                            <div class="mt-2 small">
+                                <span class="badge bg-info">{{ task.get_task_type_display }}</span>
+                                <span class="text-muted ms-2">Assigned to: {{ task.assigned_to.get_full_name|default:'Unassigned' }}</span>
+                            </div>
                         </div>
                     </div>
                     {% endif %}

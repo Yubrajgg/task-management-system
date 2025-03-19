@@ -21,7 +21,7 @@ def user_tasks(request, user_id):
 
 @login_required
 def user_dashboard(request):
-    if request.user.is_admin():
+    if request.user.is_admin:
         return redirect('admin_dashboard')
     user = request.user
     tasks = Task.objects.filter(created_by=user)

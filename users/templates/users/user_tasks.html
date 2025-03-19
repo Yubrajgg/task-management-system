@@ -1,9 +1,74 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Tasks for {{ user.username }}</h1>
-<ul>
-  {% for task in tasks %}
-    <li>{{ task.title }} - {{ task.status }}</li>
-  {% endfor %}
-</ul>
+<div class="container mt-4">
+    <h1 class="mb-4">Task Dashboard for {{ user.username }}</h1>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-primary mb-3">
+                <div class="card-header bg-primary text-white">To Do</div>
+                <div class="card-body">
+                    {% for task in tasks %}
+                        {% if task.status == 'todo' %}
+                        <div class="card shadow-sm mb-2">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                <p class="card-text text-muted">{{ task.description|truncatechars:50 }}</p>
+                                <span class="badge bg-secondary">{{ task.get_status_display }}</span>
+                                <div class="mt-2">
+                                    <small>Due: {{ task.due_date|default:"No due date" }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-warning mb-3">
+                <div class="card-header bg-warning text-dark">In Progress</div>
+                <div class="card-body">
+                    {% for task in tasks %}
+                        {% if task.status == 'in_progress' %}
+                        <div class="card shadow-sm mb-2">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                <p class="card-text text-muted">{{ task.description|truncatechars:50 }}</p>
+                                <span class="badge bg-warning">{{ task.get_status_display }}</span>
+                                <div class="mt-2">
+                                    <small>Due: {{ task.due_date|default:"No due date" }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-success mb-3">
+                <div class="card-header bg-success text-white">Done</div>
+                <div class="card-body">
+                    {% for task in tasks %}
+                        {% if task.status == 'done' %}
+                        <div class="card shadow-sm mb-2">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                <p class="card-text text-muted">{{ task.description|truncatechars:50 }}</p>
+                                <span class="badge bg-success">{{ task.get_status_display }}</span>
+                                <div class="mt-2">
+                                    <small>Due: {{ task.due_date|default:"No due date" }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
