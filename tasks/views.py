@@ -2,7 +2,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Task
-from django.contrib.auth.models import User
+from users.models import CustomUser as User
 
 @login_required
 def task_list(request):
@@ -22,6 +22,7 @@ def task_create(request):
         status = request.POST.get('status', 'todo')
         assigned_to_id = request.POST.get('assigned_to')
         due_date = request.POST.get('due_date')
+        attachment = request.FILES.get('attachment')
         
         task = Task.objects.create(
             title=title,
@@ -29,7 +30,8 @@ def task_create(request):
             status=status,
             created_by=request.user,
             assigned_to=User.objects.get(id=assigned_to_id) if assigned_to_id else None,
-            due_date=due_date if due_date else None
+            due_date=due_date if due_date else None,
+            attachment=attachment
         )
         return redirect('task_detail', pk=task.pk)
     users = User.objects.all()
@@ -45,6 +47,8 @@ def task_update(request, pk):
         assigned_to_id = request.POST.get('assigned_to')
         task.assigned_to = User.objects.get(id=assigned_to_id) if assigned_to_id else None
         task.due_date = request.POST.get('due_date')
+        if request.FILES.get('attachment'):
+            task.attachment = request.FILES['attachment']
         task.save()
         return redirect('task_detail', pk=task.pk)
     users = User.objects.all()
